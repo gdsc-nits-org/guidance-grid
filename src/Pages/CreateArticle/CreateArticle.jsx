@@ -1,10 +1,16 @@
-import React, { useState, useRef } from "react";
+import React, {useState, useRef, useMemo} from "react";
 import JoditEditor from "jodit-react";
 import style from "./CreateArticle.module.scss";
+import { postArticle} from "../../utils/post.js";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const CreateArticle = () => {
   const editor = useRef(null);
+  let title = useRef("")
   const [content, setContent] = useState("");
+  const notifyPosted = () => toast("Post Published!")
   return (
     <section className={style.createArticle}>
       <div className={style.leftSec}>
@@ -12,7 +18,7 @@ const CreateArticle = () => {
         <div className={style.title}>
           <h1 className={style.titleHead}>Title</h1>
           <p>Be specific with your title</p>
-          <input type={style.text} placeholder="Enter your title" />
+          <input type={style.text} placeholder="Enter your title"  ref={title}/>
         </div>
         <div className={style.content}>
           <h1 className={style.contentHead}>Content</h1>
@@ -25,21 +31,12 @@ const CreateArticle = () => {
             onChange={(newContent) => setContent(newContent)}
           />
         </div>
-        <div className={style.ref}>
-          <h1 className={style.refHead}>Other website in reference.</h1>
-          <p>Reference on the topic.</p>
-          <input type={style.text} placeholder="Enter tags" />
-        </div>
-        <div className={style.tags}>
-          <h1 className={style.tagHead}>Tags</h1>
-          <p>Add upto 5 tags to describe your article</p>
-          <p className={style.tag_instruction}>
-            (Place a comma between each tag that you add to the post.)
-          </p>
-          <input type={style.text} placeholder="Enter tags" />
-        </div>
         <div className={style.submit}>
-          <button className={style.btn}>POST ARTICLE</button>
+          <button className={style.btn} onClick={async () => {
+            const res = await postArticle(title.current.value, content)
+            console.log(res);
+            notifyPosted();
+          }}>POST ARTICLE</button>
         </div>
       </div>
       <div className={style.rightSec}>
@@ -59,6 +56,7 @@ const CreateArticle = () => {
           </ol>
         </div>
       </div>
+      <ToastContainer />
     </section>
   );
 };

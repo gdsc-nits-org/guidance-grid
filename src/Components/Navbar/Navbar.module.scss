@@ -16,6 +16,9 @@
   transition: all 0.3s ease-out;
   z-index: 1000;
 }
+.avatar {
+  border-radius: 50%;
+}
 
 .expanded {
   background-color: #fff;

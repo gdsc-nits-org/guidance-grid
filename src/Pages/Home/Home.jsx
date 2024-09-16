@@ -18,7 +18,6 @@ const Home = () => {
 
   return (
     <>
-      <Navbar />
       <main className={style.home}>
         <Searchbar />
         <div className={style.trendTitle}>
@@ -41,7 +40,6 @@ const Home = () => {
           <SideBar />
         </div>
       </main>
-      <Footer />
     </>
   );
 };
